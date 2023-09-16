@@ -57,43 +57,24 @@ app.post("/events",async(req,res,next)=>{
 })
 app.get("/events", async (req, res, next) => {
     const page = parseInt(req.query.page as string) || 1;
-    const limit = parseInt(req.query.limit as string) || 10; // Default limit to 10
-  
-    const offset = (page - 1) * limit;
-  
-    try {
-      const result = await getEvents(limit, offset); // Modify this function to query events with LIMIT and OFFSET
-      res.status(200).json(result);
-    } catch (error) {
-      console.error('Error fetching events:', error);
-      res.status(500).send({ message: 'Error fetching events' });
-    }
-  });
-  app.get("/events/search", async (req, res, next) => {
-    const page = parseInt(req.query.page as string) || 1;
     const limit = parseInt(req.query.limit as string) || 10;
     const offset = (page - 1) * limit;
-    const searchTerm = req.query.q as string || '';
-  
-    try {
-      const result = await searchEvents(limit, offset, searchTerm); // Modify this function to filter events by search term
-      console.log('Event added successfully:', result);
-      res.status(200).json(result);
-    } catch (error) {
-      console.error('Error fetching events:', error);
-      res.status(500).send({ message: 'Error fetching events' });
-    }
-  });   
-  app.get("/events/filter", async (req, res, next) => {
-    const page = parseInt(req.query.page as string) || 1;
-    const limit = parseInt(req.query.limit as string) || 10;
-    const offset = (page - 1) * limit;
+    const searchTerm = req.query.searchTerm as string || '';
     const actorIdFilter = parseInt(req.query.actor_id as string) || null;
     const targetIdFilter = parseInt(req.query.target_id as string) || null;
     const actionIdFilter = parseInt(req.query.action_id as string) || null;
   
     try {
-      const result = await filterEvents(limit, offset, actorIdFilter, targetIdFilter, actionIdFilter); // Modify this function to filter events
+      let result;
+  
+      if (searchTerm) {
+        result = await searchEvents(limit, offset, searchTerm);
+      } else if (actorIdFilter !== null || targetIdFilter !== null || actionIdFilter !== null) {
+        result = await filterEvents(limit, offset, actorIdFilter, targetIdFilter, actionIdFilter);
+      } else {
+        result = await getEvents(limit, offset);
+      }
+  
       console.log('Event added successfully:', result);
       res.status(200).json(result);
     } catch (error) {
@@ -101,3 +82,4 @@ app.get("/events", async (req, res, next) => {
       res.status(500).send({ message: 'Error fetching events' });
     }
   });
+  

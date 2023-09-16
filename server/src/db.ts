@@ -9,7 +9,6 @@ const pool = new Pool({
 })
 
 export const addEvents = async (event:Event) => {
-    console.log("here");
     try {
         // Check if the id exists in the employees table
         const actorExists = await pool.query(
@@ -25,7 +24,6 @@ export const addEvents = async (event:Event) => {
         
         if(event.target){
             // Check if the id exists in the employees table
-            console.log("bardo hena");
             const targetExists = await pool.query(
             'SELECT * FROM employees WHERE id = $1',
             [event.target.id]
@@ -91,7 +89,6 @@ const mapRowToEvent = (row: any): Event => ({
   
   // Function to get events with pagination
   export const getEvents = async (limit: number, offset: number): Promise<Event[]> => {
-    console.log("here");
     const query = `
       SELECT
         e.id,
