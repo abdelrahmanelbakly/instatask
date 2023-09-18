@@ -1,35 +1,12 @@
 import express from "express";
 import cors from "cors";
-import { Event,employee,action } from './types';
 import {addEvents,filterEvents,getEvents, searchEvents} from "./db";
 const app =  express();
-// const actor: employee={
-//     id: 1,
-//     name: "abdelrahman",
-//     email: "abdelrahman.com",
-//     position: "CEO"
-// }
-// const target: employee={
-//     id: 2,
-//     name: "abdelrahman2",
-//     email: "abdelrahman2.com",
-//     position: "CEO2"
-// }
-// const myAction: action = {
-//     id:1,
-//     name: "myAction",
-//     description:"action aho"
-// }
-// const myEvent: Event = {
-//     actor: actor,
-//     target: target,
-//     action: myAction,
-//     time: new Date(),
-// };
-//middleware
+
 app.use(cors());
 app.use(express.json())
-app.listen(4000, ()=>{
+const PORT = process.env.PORT;
+app.listen(PORT||4000, ()=>{
     console.log("listening to port 4000");
 })
 
