@@ -65,6 +65,7 @@ export const addEvents = async (event:Event) => {
 
 // Function to map raw database rows to Event objects
 const mapRowToEvent = (row: any): Event => ({
+    id:row.event_id,
     actor: {
       id: row.actor_id,
       name: row.actor_name,
@@ -86,35 +87,36 @@ const mapRowToEvent = (row: any): Event => ({
     },
     time: row.time,
   });
-  
+  const select = `SELECT
+                    e.id AS event_id,
+                    e.actor_id,
+                    e.target_id,
+                    e.action_id,
+                    e.time,
+                    a.name AS action_name,
+                    a.description AS action_description,
+                    actor.name AS actor_name,
+                    actor.email AS actor_email,
+                    actor.position AS actor_position,
+                    target.name AS target_name,
+                    target.email AS target_email,
+                    target.position AS target_position`
   // Function to get events with pagination
   export const getEvents = async (limit: number, offset: number): Promise<Event[]> => {
     const query = `
-      SELECT
-        e.id,
-        e.actor_id,
-        e.target_id,
-        e.action_id,
-        e.time,
-        a.name AS action_name,
-        a.description AS action_description,
-        actor.name AS actor_name,
-        actor.email AS actor_email,
-        actor.position AS actor_position,
-        target.name AS target_name,
-        target.email AS target_email,
-        target.position AS target_position
+      ${select}
       FROM events e
       LEFT JOIN employees actor ON e.actor_id = actor.id
       LEFT JOIN employees target ON e.target_id = target.id
       LEFT JOIN actions a ON e.action_id = a.id
-      ORDER BY e.time DESC
+      ORDER BY e.time
       LIMIT $1 OFFSET $2
     `;
     const values = [limit, offset];
   
     try {
       const { rows }: QueryResult = await pool.query(query, values);
+      console.log(rows+"fasdfasdfasdfasdfasdf")
       return rows.map(mapRowToEvent);
     } catch (error) {
       throw error;
@@ -122,27 +124,14 @@ const mapRowToEvent = (row: any): Event => ({
   };
   export const searchEvents = async (limit: number, offset: number, searchTerm: string): Promise<Event[]> => {
     const query = `
-      SELECT
-        e.id,
-        e.actor_id,
-        e.target_id,
-        e.action_id,
-        e.time,
-        a.name AS action_name,
-        a.description AS action_description,
-        actor.name AS actor_name,
-        actor.email AS actor_email,
-        actor.position AS actor_position,
-        target.name AS target_name,
-        target.email AS target_email,
-        target.position AS target_position
+    ${select}
       FROM events e
       LEFT JOIN employees actor ON e.actor_id = actor.id
       LEFT JOIN employees target ON e.target_id = target.id
       LEFT JOIN actions a ON e.action_id = a.id
       WHERE
         (actor.name ILIKE $1 OR actor.email ILIKE $1 OR a.name ILIKE $1)
-      ORDER BY e.time DESC
+      ORDER BY e.time
       LIMIT $2 OFFSET $3
     `;
     const values = [`%${searchTerm}%`, limit, offset];
@@ -162,20 +151,7 @@ const mapRowToEvent = (row: any): Event => ({
     actionIdFilter: number | null
   ): Promise<Event[]> => {
     const query = `
-      SELECT
-        e.id,
-        e.actor_id,
-        e.target_id,
-        e.action_id,
-        e.time,
-        a.name AS action_name,
-        a.description AS action_description,
-        actor.name AS actor_name,
-        actor.email AS actor_email,
-        actor.position AS actor_position,
-        target.name AS target_name,
-        target.email AS target_email,
-        target.position AS target_position
+      ${select}
       FROM events e
       LEFT JOIN employees actor ON e.actor_id = actor.id
       LEFT JOIN employees target ON e.target_id = target.id
@@ -184,7 +160,7 @@ const mapRowToEvent = (row: any): Event => ({
         ($1::int IS NULL OR e.actor_id = $1)
         AND ($2::int IS NULL OR e.target_id = $2)
         AND ($3::int IS NULL OR e.action_id = $3)
-      ORDER BY e.time DESC
+      ORDER BY e.time
       LIMIT $4 OFFSET $5
     `;
     const values = [actorIdFilter, targetIdFilter, actionIdFilter, limit, offset];

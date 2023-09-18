@@ -1,4 +1,4 @@
-export interface Event {
+export interface EventObj {
     id:number;
     actor: employee;
     target: employee|null;

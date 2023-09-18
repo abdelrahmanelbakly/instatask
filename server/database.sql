@@ -20,5 +20,5 @@ CREATE TABLE Events (
     actor_id integer REFERENCES Employees(id) NOT NULL,
     target_id integer REFERENCES Employees(id),
     action_id integer REFERENCES Actions(id),
-    time datetime,
+    time timestamp
 );
