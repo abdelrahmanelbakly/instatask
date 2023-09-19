@@ -1,19 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react';
 import EventsContainer from './components/EventsContainer';
 import { EventObj,employee,action } from './types';
-
-
+let usedEffect = false;
 function App() {
   //setup required states
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [Events, setEvents] = useState<EventObj[]>([]);
   const [searchTerm,setSearchTerm] = useState<string>("");
   const [isReady, setIsReady] = useState(false); // State to track readiness
-  let usedEffect = false;
+  //Load More
   const nextPage = () => {
-    setPageNumber((prevPageNumber) => prevPageNumber + 1);
-    handleFetchEvents()
+    const newPageNumber = pageNumber + 1;
+    setPageNumber(newPageNumber);
+    handleFetchEvents(searchTerm,newPageNumber)
   };
+  //fetch Events from API
   const fetchEvents = async (
     page: number,
     limit: number = 5,
@@ -23,6 +24,7 @@ function App() {
     queryParams.append('page', page.toString());
     queryParams.append('limit', limit.toString());
     queryParams.append('searchTerm', searchTerm);
+    console.log("searchTerm: "+searchTerm+"page:"+page+"limit:"+limit)
     try {
       const response = await fetch(`http://localhost:4000/events?${queryParams.toString()}`);
       if (!response.ok) {
@@ -45,17 +47,18 @@ function App() {
     }
   };
 
-  // Example usage of fetchEvents function
-  const handleFetchEvents = () => {
-    fetchEvents(pageNumber, 10, searchTerm); // Call the function with your desired parameters
+  const handleFetchEvents = (search:string,pageNumber:number) => {
+    fetchEvents(pageNumber, 10, search); 
   };
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEvents([]);
-    setPageNumber(0);
+    setPageNumber(1);
     const newValue = event.target.value;
-    setSearchTerm(newValue)
-    handleFetchEvents();
+    setSearchTerm(newValue);
+    handleFetchEvents(newValue,pageNumber);
+
   };
+  //Load data for the first time 
   useEffect(() => {
     if(usedEffect){
       return;
@@ -64,12 +67,10 @@ function App() {
     }
     fetchEvents(1, 10, "")
       .then((result) => {
-        setIsReady(true); // Set isReady to true when the data is ready
-        setPageNumber(2);
+        setIsReady(true);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
-        setIsReady(true); // Set isReady to true even if there's an error
       });
   }, []);
   return (

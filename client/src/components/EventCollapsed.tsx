@@ -7,11 +7,11 @@ interface EventCollapsedProps{
 const formatDate = (date:Date)=>{
 
   const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  const dayOfWeek = daysOfWeek[date.getDay()]; // Get the day of the week
+  const dayOfWeek = daysOfWeek[date.getDay()];
   const dayOfMonth = date.getDate();
   const hours = date.getHours();
   const minutes = date.getMinutes();
-  
+
   const formattedDate = `${dayOfWeek} ${dayOfMonth}, ${hours}:${minutes}`;
   return formattedDate;
 }
@@ -23,10 +23,10 @@ const EventCollapsed: React.FC<EventCollapsedProps> = ({ onClick,Event }) => {
         <div className="w-[25px] h-[25px] bg-gradient-to-br from-orange-400 to-fuchsia-600 rounded-full text-center" >
             <p>{Event.actor.name[0].toUpperCase()}</p>
         </div>
-        <h5>{Event.actor.name}</h5>   
+        <h5 className='px-2'>{Event.actor.name}</h5>   
       </div>
       <div className= "w-1/3 px-6 py-3 text-left">
-        <h5>{Event.actor.email}</h5>
+        <h5>{Event.action.name}</h5>
       </div>
       <div className= "w-1/3 px-6 py-3 text-left">
         <p>{formatDate(Event.time)}</p>

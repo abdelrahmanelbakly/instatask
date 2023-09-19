@@ -48,6 +48,7 @@ app.get("/events", async (req, res, next) => {
     } else if (actorIdFilter !== null || targetIdFilter !== null || actionIdFilter !== null) {
       result = await filterEvents(limit, offset, actorIdFilter, targetIdFilter, actionIdFilter);
     } else {
+      console.log("hena")
       result = await getEvents(limit, offset);
     }
 
