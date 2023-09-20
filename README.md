@@ -11,11 +11,11 @@ This project is an event logging web application developed using the PERN (Postg
 
 ## Features
 
-- **Create Events:** Users can easily create new events by providing event details such as title, date, description, and category.
+- **Create Events:** Users can easily create new events by providing event details.
 
-- **View Events:** Users can view a list of all events with the ability to filter and sort them based on categories or dates.
+- **View Events:** Users can view a list of all events with the ability to filter and search them.
 
-- **Responsive Design:** The application is designed to be responsive, ensuring a seamless experience on various screen sizes.
+- **Responsive Design:** The application is designed to be responsive.
 
 ## Demo Screenshot
 
@@ -35,4 +35,4 @@ This Event Logging Project was built using the following technologies and framew
 
 - **Tailwind CSS:** Utilized for responsive and stylish UI design.
 
-- **npm and yarn:** Package managers to handle project dependencies.
+- **npm:** Package managers to handle project dependencies.
