@@ -5,7 +5,7 @@
 This project is an event logging web application developed using the PERN (PostgreSQL, Express, React, Node.js) stack, TypeScript, and Tailwind CSS. Its main purpose is to provide a platform for users to log and track events, making it useful for various applications such as project management, issue tracking, or personal event organization.
 
 
-**Problem:** Many individuals and teams need a straightforward way to log and keep track of events. This application addresses this need by offering a user-friendly interface to create, view, update, and delete events.
+**Problem:** Many individuals and teams need a straightforward way to log and keep track of events. This application addresses this need by offering a user-friendly interface to create, view.
 
 **What I Learned:** During the development of this project, I acquired knowledge and skills in setting up a PERN stack application, implementing TypeScript for improved code quality, and using Tailwind CSS for responsive and attractive user interfaces.
 
