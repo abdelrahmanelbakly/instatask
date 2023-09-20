@@ -35,4 +35,4 @@ This Event Logging Project was built using the following technologies and framew
 
 - **Tailwind CSS:** Utilized for responsive and stylish UI design.
 
-- **npm** Package managers to handle project dependencies.
+- **npm and yarn:** Package managers to handle project dependencies.
