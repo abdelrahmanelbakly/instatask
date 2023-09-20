@@ -15,9 +15,9 @@ const Event: React.FC<EventComponentProps>= ({Event}) => {
   return (
     <div className='flex flex-col items-center w-full overflow-visible m-3'>
       {isClicked ?
-        (<EventDetailed Event={Event} onClick={async () => {handleClick(false);console.log("sdfa")}}/>)
+        (<EventDetailed Event={Event} onClick={async () => {handleClick(false);}}/>)
         :
-        (<EventCollapsed Event={Event} onClick={async () => {handleClick(true);console.log("sdfa")}}/>)}
+        (<EventCollapsed Event={Event} onClick={async () => {handleClick(true);}}/>)}
     </div>
   );
 };

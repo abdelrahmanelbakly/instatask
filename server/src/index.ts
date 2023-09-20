@@ -48,11 +48,8 @@ app.get("/events", async (req, res, next) => {
     } else if (actorIdFilter !== null || targetIdFilter !== null || actionIdFilter !== null) {
       result = await filterEvents(limit, offset, actorIdFilter, targetIdFilter, actionIdFilter);
     } else {
-      console.log("hena")
       result = await getEvents(limit, offset);
     }
-
-    console.log('Event added successfully:', result);
     res.status(200).json(result);
   } catch (error) {
     console.error('Error fetching events:', error);
