@@ -19,7 +19,7 @@ This project is an event logging web application developed using the PERN (Postg
 
 ## Demo Screenshot
 
-![Event Logging Project Demo](demo.png)
+![Event Logging Project Demo](demo.JPG)
 
 ## Technologies
 
